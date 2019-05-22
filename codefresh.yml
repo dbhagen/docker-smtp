@@ -1,0 +1,27 @@
+version: '1.0'
+stages:
+  - prepare
+  - build
+  - test
+steps:
+  main_clone:
+    title: Cloning main repository...
+    type: git-clone
+    repo: '${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}'
+    revision: '${{CF_REVISION}}'
+    stage: prepare
+    git: github-dbhagen
+  BuildDockerImage:
+    title: Building Docker Image
+    type: build
+    stage: build
+    image_name: docker-smtp
+    working_directory: ./
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+    dockerfile: Dockerfile
+  UnitTests:
+    title: Running Unit tests
+    stage: test
+    image: '${{MyAppDockerImage}}'
+    commands:
+      - npm run test
