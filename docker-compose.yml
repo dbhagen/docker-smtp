@@ -1,11 +1,11 @@
 version: '3'
 services:
   smtp:
-    image: namshi/smtp
-    container_name: smtp_relay
+    image: dbhagen/docker-smtp-relay
+    container_name: docker-smtp-relay
     restart: always
     ports:
-     - "25:25"
+      - "25:25"
     environment:
      # # MUST start with : e.g RELAY_NETWORKS=:192.168.0.0/24:10.0.0.0/16
      # # if acting as a relay this or RELAY_DOMAINS must be filled out or incoming mail will be rejected
@@ -13,8 +13,8 @@ services:
      # # what domains should be accepted to forward to lower distance MX server.
      # - RELAY_DOMAINS= <domain1> : <domain2> : <domain3>
      # # To act as a Gmail relay
-     # - GMAIL_USER=
-     # - GMAIL_PASSWORD=
+      - GMAIL_USER=mail-proxy
+      - GMAIL_PASSWORD=2V}rDhETYenLJR7DEsu)EAyz9QkC;*m6
      # # For use with Amazon SES relay
      # - SES_USER=
      # - SES_PASSWORD=

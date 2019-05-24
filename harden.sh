@@ -21,6 +21,9 @@ rm -fr /etc/periodic
 find /sbin /usr/sbin ! -type d \
   -a ! -name exim \
   -a ! -name nologin \
+  -a ! -name entrypoint.sh \
+  -a ! -name set-exim-update-conf \
+  -a ! -name ip \
   -delete
 
 # Remove world-writable permissions.
@@ -105,3 +108,5 @@ rm -f /etc/fstab
 
 # Remove broken symlinks (because we removed the targets above).
 find $sysdirs -xdev -type l -exec test ! -e {} \; -delete
+
+ls -latr /etc/

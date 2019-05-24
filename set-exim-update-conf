@@ -1,15 +1,18 @@
 #!/bin/bash
 set -e
 
-conf='/etc/exim4/update-exim4.conf.conf'
+conf='/etc/exim/exim.conf'
+
+#cat "$conf"
 
 sedExpr=''
 while [ $# -gt 0 ]; do
 	key="$1"
 	value="$2"
 	shift 2
+  echo "$key $value"
 
-	if ! grep -qE "^#?${key}=" "$conf"; then
+	if ! grep -qE "^#?${key}\s?=" "$conf"; then
 		echo >&2 "error: '$key' not found in '$conf'"
 		exit 1
 	fi
@@ -20,4 +23,4 @@ done
 
 set -x
 sed -ri "$sedExpr"$'\n' "$conf"
-update-exim4.conf -v
+update-exim.conf -v

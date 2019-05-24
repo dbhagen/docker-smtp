@@ -1,0 +1,27 @@
+[Unit]
+Description=Site-local Mail Relay
+After=docker.service
+Requires=dns.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker rm -f %n
+ExecStart=/usr/bin/docker run \
+  --name %n \
+  -c 1023 \
+  -m 20m \
+  -p 25:2525 \
+  -h ix-smtp01.inf.example.com \
+  --dns 10.188.2.254 \
+  --dns-search prod.example.com \
+  --dns-search inf.example.com \
+  --read-only \
+  --cap-drop all \
+  --cap-add setgid \
+  --cap-add setuid \
+  quay.io/example/mail_relay:latest
+ExecStop=/usr/bin/docker stop %n
+RestartSec=5s
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
