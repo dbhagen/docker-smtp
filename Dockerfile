@@ -1,9 +1,8 @@
-FROM alpine:3.6
-
-ARG VERSION=4.89-r5
+FROM alpine:3.13
+ARG VERSION=4.94.2-r0
 
 LABEL org.opencontainers.image.version=$VERSION \
-      org.opencontainers.image.url="https://github.com/bambocher/docker-exim-relay" \
+      org.opencontainers.image.url="https://github.com/dbhagen/docker-smtp-relay" \
       org.opencontainers.image.licenses=MIT \
       org.opencontainers.image.authors="Daniel B. Hagen <daniel.b.hagen+oss@gmail.com>" \
       org.opencontainers.image.vendor="Daniel B. Hagen"
@@ -15,7 +14,7 @@ ENV RELAY_FROM_HOSTS=10.0.0.0/8:172.16.0.0/12:192.168.0.0/16 \
 
 RUN apk add --no-cache exim=$VERSION openssl \
     && rm -rf /tmp/* /var/tmp/* /var/cache/apk/* \
-    && mkdir /dkim /ssl /var/log/exim /usr/lib/exim /var/spool/exim \
+    && mkdir -p /dkim /ssl /var/log/exim /usr/lib/exim /var/spool/exim \
     && ln -s /dev/stdout /var/log/exim/mainlog \
     && ln -s /dev/stdout /var/log/exim/main \
     && ln -s /dev/stderr /var/log/exim/panic \
